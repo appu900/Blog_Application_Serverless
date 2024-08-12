@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { decode, verify } from "hono/jwt";
+import { S3Client, PutObjectCommand, S3 } from "@aws-sdk/client-s3";
 
 export const blogRouter = new Hono<{
   Bindings: {
@@ -30,11 +31,35 @@ blogRouter.use("/*", async (c, next) => {
 });
 
 blogRouter.post("/", async (c) => {
-  const body = await c.req.json();
   const userId = c.get("userId");
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
+
+  // const s3Client = new S3Client({
+  //   region:c.env.
+  // })
+
+  const form = await c.req.formData();
+  const file = form.get("file");
+  const title = form.get("title");
+  const content = form.get("content");
+
+  if (!(file instanceof File)) {
+    c.status(400);
+    return c.json({ error: "file upload is required" });
+  }
+
+  const fileName = file.name;
+  const arrayBuffer = await file.arrayBuffer();
+  const fileContent = new Uint8Array(arrayBuffer);
+
+  const uploadParams = {
+    Bucket: "",
+    Key: "",
+    Body: "",
+    ContentType: file.type,
+  };
 
   const post = await prisma.post.create({
     data: {

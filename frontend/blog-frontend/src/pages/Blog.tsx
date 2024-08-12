@@ -1,5 +1,3 @@
-import React from "react";
-import BlogCard from "../components/BlogCard";
 import { Avatar } from "@nextui-org/react";
 import { Image } from "@nextui-org/react";
 
@@ -33,15 +31,8 @@ export default function Blog() {
         </h1>
       </div>
       <div className="mt-10 w-full">
-        {/* <img
-          className="w-full h-[600px] rounded object-cover"
-          src="https://img.freepik.com/free-photo/anime-style-portrait-traditional-japanese-samurai-character_23-2151499070.jpg?uid=R32368678&ga=GA1.1.280991500.1720899505&semt=ais_hybrid"
-          alt=""
-        /> */}
         <Image
-        
           isBlurred
-          // width={340}
           src="https://cdn.pixabay.com/photo/2024/02/18/13/13/ai-generated-8581189_960_720.jpg"
           alt="NextUI Album Cover"
           className=" w-full h-auto object-cover"
