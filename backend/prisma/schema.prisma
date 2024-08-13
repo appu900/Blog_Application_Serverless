@@ -20,6 +20,7 @@ model User{
   name String?
   password String
   posts Post[]
+  likes Like[]
 }
 
 model Post{
@@ -28,9 +29,22 @@ model Post{
   title String
   content String
   published Boolean @default(false)
+  likeCount Int @default(0)
+  likes Like[]
   image String?
   author User @relation(fields: [authorId], references: [id])
 }
+
+model Like{
+  id String @id @default(uuid())
+  postId String
+  userId String
+  post Post @relation(fields: [postId],references: [id])
+  user User @relation(fields: [userId], references: [id])
+  @@unique([postId,userId])
+}
+
+
 
 // generate the prisma client after migrate the database
 // command to generate the prisma client : npx prisma generate --no-engine
